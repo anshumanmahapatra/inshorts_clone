@@ -11,13 +11,17 @@ class _DiscoverState extends State<Discover> {
   int counter = 0;
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Discover"),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Text("$counter"),
+      body: SafeArea(
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          height: size.height,
+          width: size.width,
+          child: Text("$counter"),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),

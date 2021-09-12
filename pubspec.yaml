@@ -30,6 +30,7 @@ dependencies:
   flutter:
     sdk: flutter
   http:
+  get: 
   webview_flutter: 
   lottie: 
   timeago: 
