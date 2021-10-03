@@ -1,51 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import '../screens/error.dart';
 import '../screens/loading_screen.dart';
 import '../screens/home.dart';
 import '../models/news_model.dart';
-import '../services/news_api.dart';
+import '../controller/controller.dart';
 
-class PseudoHome extends StatefulWidget {
+class PseudoHome extends StatelessWidget {
   const PseudoHome({Key? key}) : super(key: key);
 
   @override
-  _PseudoHomeState createState() => _PseudoHomeState();
-}
-
-class _PseudoHomeState extends State<PseudoHome> {
-  late Future<List<NewsModel>> newsArticles;
-
-  // double? currentPage = 0.0;
-  // PageController pageController = PageController();
-
-  @override
-  void initState() {
-    super.initState();
-    newsArticles = NewsApi.getNews();
-    // pageController.addListener(() {
-    //   setState(() {
-    //     currentPage = pageController.page;
-    //   });
-    // });
-  }
-
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   pageController.dispose();
-  // }
-
-  @override
   Widget build(BuildContext context) {
+    Controller controller = Get.put(Controller());
+    
     return Scaffold(
       appBar: AppBar(
-        brightness: Brightness.dark,
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
         toolbarHeight: 0,
         backgroundColor: Colors.black,
       ),
       body: SafeArea(
         child: FutureBuilder<List<NewsModel>>(
-            future: newsArticles,
+            future: controller.newsArticles,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Home(newsList: snapshot.data!);

@@ -13,31 +13,45 @@ class NewWebView extends StatelessWidget {
   Widget build(BuildContext context) {
     String str = "com";
     int index = newsModel.url.indexOf(str);
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(newsModel.url.substring(8, index + 3),
-              style: const TextStyle(
-                fontSize: 9,
-                color: Colors.white70,
-              )),
-          elevation: 0.0,
-          centerTitle: true,
-          toolbarHeight: 30,
-          backgroundColor: Colors.black,
-          leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back_ios_sharp,
-                size: 17,
+    return WillPopScope(
+      onWillPop: () async {
+        pageController.animateToPage(1,
+            duration: const Duration(milliseconds: 200), curve: Curves.linear);
+        return false;
+      },
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text(newsModel.url.substring(8, index + 3),
+                style: const TextStyle(
+                  fontSize: 9,
+                  color: Colors.white70,
+                )),
+            elevation: 0.0,
+            centerTitle: true,
+            toolbarHeight: 30,
+            backgroundColor: Colors.black,
+            leading: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios_sharp,
+                  size: 17,
+                ),
+                onPressed: () {
+                  pageController.animateToPage(1,
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.linear);
+                }),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.more_vert_sharp, size: 19),
+                onPressed: () {},
               ),
-              onPressed: () {
-                pageController.animateToPage(1,
-                    duration: const Duration(milliseconds: 200),
-                    curve: Curves.linear);
-              }),
-        ),
-        body: WebView(
-          initialUrl: newsModel.url,
-          javascriptMode: JavascriptMode.unrestricted,
-        ));
+              const SizedBox(width: 2),
+            ],
+          ),
+          body: WebView(
+            initialUrl: newsModel.url,
+            javascriptMode: JavascriptMode.unrestricted,
+          )),
+    );
   }
 }

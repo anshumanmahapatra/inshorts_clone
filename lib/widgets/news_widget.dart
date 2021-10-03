@@ -87,6 +87,9 @@ class _NewsWidgetState extends State<NewsWidget> {
                             controller.doNotShowBottom.value == false) {
                           controller.hideTop();
                           controller.hideBottom();
+                          if (controller.boolForShowingBottom.value != false) {
+                            controller.changeBoolForShowingBottom(false);
+                          }
                         } else if (controller.doNotShowTop.value == true &&
                             controller.doNotShowBottom.value == true) {
                           controller.showTop();
@@ -94,6 +97,10 @@ class _NewsWidgetState extends State<NewsWidget> {
                         } else if (controller.doNotShowTop.value == false &&
                             controller.doNotShowBottom.value == true) {
                           controller.showBottom();
+                          debugPrint("Show bottom value: " +
+                              controller.doNotShowBottom.value.toString());
+                          debugPrint("Bottom Height: " +
+                              controller.heightOfBottom.value.toString());
                         } else {}
                       },
                       child: Container(
@@ -131,27 +138,25 @@ class _NewsWidgetState extends State<NewsWidget> {
                                 alignment: Alignment.centerLeft,
                                 padding: const EdgeInsets.only(
                                     top: 10, left: 20, right: 30),
-                                child: AnimatedCrossFade(
-                                  crossFadeState:
-                                      controller.doNotShowBottom.value == true
-                                          ? CrossFadeState.showFirst
-                                          : CrossFadeState.showSecond,
-                                  firstChild: Text(
-                                      "swipe left for more at ${widget.newsModel.sourceName['name']} / ${showTimeAgo(widget.newsModel.time)}",
-                                      style: const TextStyle(
-                                        fontSize: 11,
-                                        fontFamily: "FF Clan OT Bold",
-                                        color: Colors.black26,
-                                      )),
-                                  secondChild: Text(
-                                      "short by ${widget.newsModel.author}",
-                                      key: ValueKey<int>(
-                                          controller.countOfSwitcher.value),
-                                      style: const TextStyle(
-                                        fontSize: 11,
-                                        fontFamily: "FF Clan OT Bold",
-                                        color: Colors.black26,
-                                      )),
+                                child: AnimatedSwitcher(
+                                  child: controller.doNotShowBottom.value ==
+                                          true
+                                      ? Text(
+                                          "swipe left for more at ${widget.newsModel.sourceName['name']} / ${showTimeAgo(widget.newsModel.time)}",
+                                          key: const ValueKey<int>(0),
+                                          style: const TextStyle(
+                                            fontSize: 11,
+                                            fontFamily: "FF Clan OT Bold",
+                                            color: Colors.black26,
+                                          ))
+                                      : Text(
+                                          "short by ${widget.newsModel.author}",
+                                          key: const ValueKey<int>(1),
+                                          style: const TextStyle(
+                                            fontSize: 11,
+                                            fontFamily: "FF Clan OT Bold",
+                                            color: Colors.black26,
+                                          )),
                                   duration: const Duration(milliseconds: 200),
                                 ),
                               ),
